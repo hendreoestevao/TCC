@@ -1,0 +1,139 @@
+<!-- Se o tipo de usuário for "admin", exibe o conteúdo abaixo -->
+<app-widgets-dropdown *ngIf="isAdmin"></app-widgets-dropdown>
+
+<c-card class="my-4" *ngIf="isAdmin">
+  <c-card-body>
+    <c-row>
+      <c-col sm="5">
+        <h4 class="card-title mb-0" id="traffic">Gráfico</h4>
+        <div class="small text-body-secondary">Janeiro - Dezembro 2024</div>
+      </c-col>
+      <c-col class="d-none d-md-block" sm="7">
+        <form [formGroup]="trafficRadioGroup">
+          <c-button-group class="float-end me-3" role="group">
+            <input
+              class="btn-check"
+              formControlName="trafficRadio"
+              type="radio"
+              value="Day"
+              id="dayRadio"
+            />
+            <label
+              (click)="setTrafficPeriod('Day')"
+              cButton
+              cFormCheckLabel
+              color="secondary"
+              variant="outline"
+              for="dayRadio"
+            >
+              Dia
+            </label>
+            <input
+              class="btn-check"
+              formControlName="trafficRadio"
+              type="radio"
+              value="Month"
+              id="radioMonth"
+            />
+            <label
+              (click)="setTrafficPeriod('Month')"
+              cButton
+              cFormCheckLabel
+              color="secondary"
+              variant="outline"
+              for="radioMonth"
+            >
+              Mês
+            </label>
+            <input
+              class="btn-check"
+              formControlName="trafficRadio"
+              type="radio"
+              value="Year"
+              id="radioYear"
+            />
+            <label
+              (click)="setTrafficPeriod('Year')"
+              cButton
+              cFormCheckLabel
+              color="secondary"
+              variant="outline"
+              for="radioYear"
+            >
+              Ano
+            </label>
+          </c-button-group>
+        </form>
+      </c-col>
+    </c-row>
+    <c-chart
+      [data]="mainChart.data"
+      [height]="300"
+      [ngStyle]="{ 'marginTop.px': 40 }"
+      [options]="mainChart.options"
+      [type]="mainChart.type"
+      (chartRef)="handleChartRef($event)"
+    >
+      Main chart
+    </c-chart>
+  </c-card-body>
+</c-card>
+
+<app-widgets-brand [withCharts]="true" *ngIf="isAdmin"></app-widgets-brand>
+
+<!-- Se não for admin, exibe "Hola Mundo" -->
+<div *ngIf="professorData" class="container my-5">
+  <!-- Welcome Section -->
+  <div class="card text-center shadow-lg mb-4">
+    <div class="card-body bg-primary text-white">
+      <h1 class="card-title" >Seja bem-vindo, {{ professorData.nome }}</h1>
+    </div>
+  </div>
+
+  <!-- Information Section -->
+  <div class="card shadow-lg mb-4">
+    <div class="card-body">
+      <h2 class="card-title">Informações do Professor</h2>
+      <p><strong>Nome:</strong> {{ professorData.nome }}</p>
+      <p><strong>Sobrenome:</strong> {{ professorData.sobrenome }}</p>
+      <p><strong>Email:</strong> {{ professorData.email }}</p>
+    </div>
+  </div>
+
+  <!-- Disciplinas Section -->
+  <div class="card shadow-lg mb-4" *ngIf="professorData.disciplinaNomes?.length > 0">
+    <div class="card-body">
+      <h3 class="card-title">Disciplinas</h3>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let disciplina of professorData.disciplinaNomes">
+          {{ disciplina }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Turmas Section -->
+  <div class="card shadow-lg mb-4" *ngIf="professorData.turmaNomes?.length > 0">
+    <div class="card-body">
+      <h3 class="card-title">Turmas</h3>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let turma of professorData.turmaNomes">
+          {{ turma }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Cursos Section -->
+  <div class="card shadow-lg mb-4" *ngIf="professorData.cursoNomes?.length > 0">
+    <div class="card-body">
+      <h3 class="card-title">Cursos</h3>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let curso of professorData.cursoNomes">
+          {{ curso }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+

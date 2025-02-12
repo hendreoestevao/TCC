@@ -1,0 +1,61 @@
+<div *ngIf="isAdmin; else accessDenied">
+<h1 [ngStyle]="{ color: '#007BFF' }" >Todas as Disciplinas</h1>
+
+<div class="mb-3">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Filtrar disciplinas por nome, curso ou turmas..."
+    [(ngModel)]="filtro"
+    (input)="filtrarDisciplinas()"
+  />
+</div>
+
+<!-- Tabela de Disciplinas -->
+<div *ngIf="!loading && disciplinasFiltradas.length > 0">
+  <table class="table table-striped table-bordered mt-4">
+    <thead class="thead-dark">
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Carga Horária</th>
+        <th>Nota Máxima</th>
+        <th>Curso</th>
+        <th>Turmas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let disciplina of disciplinasFiltradas; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ disciplina.nome }}</td>
+        <td>{{ disciplina.cargaHoraria }}h</td>
+        <td>{{ disciplina.notaMaxima }}</td>
+        <td>{{ disciplina.curso || 'N/A' }}</td>
+        <td>
+          <div *ngIf="disciplina.turmas?.length > 0">
+            <button class="btn btn-link p-0" (click)="toggleTurmas(disciplina.id)">
+              {{ disciplina.showTurmas ? 'Ocultar' : 'Ver' }}
+            </button>
+            <ul *ngIf="disciplina.showTurmas" class="list-unstyled">
+              <li *ngFor="let turma of disciplina.turmas">{{ turma }}</li>
+            </ul>
+          </div>
+          <div *ngIf="!disciplina.turmas || disciplina.turmas.length === 0">
+            Nenhuma turma associada.
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Mensagem de Nenhuma Disciplina Encontrada -->
+<div *ngIf="!loading && disciplinasFiltradas.length === 0" class="alert alert-warning text-center">
+  Nenhuma disciplina encontrada.
+</div>
+</div>
+<ng-template #accessDenied>
+  <div class="text-center my-4">
+    <h1>Somente administradores podem acessar esta página.</h1>
+  </div>
+</ng-template>

@@ -1,0 +1,15 @@
+<div class="container mt-5"  *ngIf="isAdmin; else accessDenied">
+  <h1 [ngStyle]="{ color: '#007BFF' }">Lista de Disciplinas</h1>
+
+  <div class="list-group">
+    <div *ngFor="let disciplina of disciplinas" class="list-group-item d-flex justify-content-between align-items-center">
+      <span>{{ disciplina.nome }}</span>
+      <button (click)="deletarDisciplina(disciplina.id)" class="btn btn-danger btn-sm">Deletar</button>
+    </div>
+  </div>
+</div>
+<ng-template #accessDenied>
+  <div class="text-center my-4">
+    <h1>Somente administradores podem acessar esta página.</h1>
+  </div>
+</ng-template>

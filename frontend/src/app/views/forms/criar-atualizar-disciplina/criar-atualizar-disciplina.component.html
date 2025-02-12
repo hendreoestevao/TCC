@@ -1,0 +1,79 @@
+
+<div class="container mt-5 " >
+  <div *ngIf="isAdmin; else accessDenied"> <!-- Stepper para alternar entre Criar e Editar -->
+  <div class="d-flex justify-content-center mb-4" >
+    <button class="btn btn-outline-primary mr-2 px-4" [ngStyle]="{ backgroundColor: '#007BFF', color: '#FFFFFF', border: 'none' }" [class.active]="isModoCriacao" (click)="modoCriacao()">Criar Disciplina</button>
+    <button class="btn btn-outline-secondary px-4" [ngStyle]="{ backgroundColor: '#007BFF', color: '#FFFFFF', border: 'none' }" [class.active]="isModoEdicao" (click)="modoEdicao()">Editar Disciplina</button>
+  </div>
+
+  <!-- Formulário para Criar Disciplina -->
+  <div *ngIf="isModoCriacao">
+    <h2 [ngStyle]="{ color: '#007BFF' }">Criar Disciplina</h2>
+    <form [formGroup]="disciplinaForm" (ngSubmit)="onSubmit()" class="p-4 border rounded">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input id="nome" formControlName="nome" type="text" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label for="cargaHoraria" class="form-label">Carga Horária</label>
+        <input id="cargaHoraria" formControlName="cargaHoraria" type="number" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label for="notaMaxima" class="form-label">Nota Máxima</label>
+        <input id="notaMaxima" formControlName="notaMaxima" type="number" class="form-control" />
+      </div>
+      <button type="submit" class="btn btn-primary w-100" [ngStyle]="{ backgroundColor: '#007BFF', color: '#FFFFFF', border: 'none' }">Criar Disciplina</button>
+    </form>
+  </div>
+</div>
+  <div *ngIf="isModoEdicao">
+    <h2 [ngStyle]="{ color: '#007BFF' }">Editar Disciplina</h2>
+    <form [formGroup]="disciplinaForm" (ngSubmit)="onSubmit()" class="p-4 border rounded">
+      <!-- Seleção de Disciplina -->
+      <div class="mb-3">
+        <label for="disciplinaSelect" class="form-label">Selecione uma Disciplina</label>
+        <select id="disciplinaSelect" class="form-control" (change)="onSelectDisciplina($event)">
+          <option value="" disabled selected>Selecione uma disciplina</option>
+          <option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{ disciplina.nome }}</option>
+        </select>
+      </div>
+
+      <!-- Campos para Edição -->
+      <div *ngIf="selectedDisciplinaId">
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input id="nome" formControlName="nome" type="text" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="cargaHoraria" class="form-label">Carga Horária</label>
+          <input id="cargaHoraria" formControlName="cargaHoraria" type="number" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="notaMaxima" class="form-label">Nota Máxima</label>
+          <input id="notaMaxima" formControlName="notaMaxima" type="number" class="form-control" />
+        </div>
+        <!-- Seleção de Curso -->
+        <div class="mb-3">
+          <label for="curso" class="form-label">Curso</label>
+          <select id="curso" formControlName="cursoId" class="form-control">
+            <option value="" disabled selected>Selecione um curso</option>
+            <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nome }}</option>
+          </select>
+        </div>
+        <!-- Seleção de Turmas -->
+        <div class="mb-3">
+          <label for="turmas" class="form-label">Turmas</label>
+          <select id="turmas" formControlName="turmaIds" class="form-control" multiple>
+            <option *ngFor="let turma of turmas" [value]="turma.id">{{ turma.periodo }}</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" [ngStyle]="{ backgroundColor: '#007BFF', color: '#FFFFFF', border: 'none' }" [disabled]="!selectedDisciplinaId">Atualizar Disciplina</button>
+    </form>
+  </div>
+  <ng-template #accessDenied>
+    <div class="text-center my-4">
+      <h1>Somente administradores podem acessar esta página.</h1>
+    </div>
+  </ng-template>

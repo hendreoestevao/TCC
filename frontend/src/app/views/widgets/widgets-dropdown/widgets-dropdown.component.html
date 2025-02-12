@@ -1,0 +1,62 @@
+<div class="row g-4">
+  <!-- Total de Alunos -->
+  <div class="col-sm-6 col-xl-3">
+    <div class="card text-white bg-primary">
+      <div class="card-body">
+        <h5 class="card-title">Total de Alunos</h5>
+        <p class="card-text" style="font-size: 2rem; font-weight: bold;">
+          {{ totalAlunos }}
+
+        </p>
+        <div class="chart-container mt-3 mx-3" style="height: 70px;">
+          <c-chart [data]="data[0]" [options]="options[0]" [type]="'line'"></c-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total de Cursos -->
+  <div class="col-sm-6 col-xl-3">
+    <div class="card text-white bg-info">
+      <div class="card-body">
+        <h5 class="card-title">Total de Cursos</h5>
+        <p class="card-text" style="font-size: 2rem; font-weight: bold;">
+          {{ totalCursos }}
+        </p>
+        <div class="chart-container mt-3 mx-3" style="height: 70px;">
+          <c-chart [data]="data[1]" [options]="options[1]" [type]="'line'"></c-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total de Disciplinas -->
+  <div class="col-sm-6 col-xl-3">
+    <div class="card text-white bg-warning">
+      <div class="card-body">
+        <h5 class="card-title">Total de Disciplinas</h5>
+        <p class="card-text" style="font-size: 2rem; font-weight: bold;">
+          {{ totalDisciplinas }}
+        </p>
+        <div class="chart-container mt-3" style="height: 70px;">
+          <c-chart [data]="data[2]" [options]="options[2]" [type]="'line'"></c-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total de Turmas -->
+  <div class="col-sm-6 col-xl-3">
+    <div class="card text-white bg-danger">
+      <div class="card-body">
+        <h5 class="card-title">Total de Turmas</h5>
+        <p class="card-text" style="font-size: 2rem; font-weight: bold;">
+          {{ totalTurmas }}
+        </p>
+        <div class="chart-container mt-3 mx-3" style="height: 70px;">
+          <c-chart [data]="data[3]" [options]="options[3]" [type]="'bar'"></c-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

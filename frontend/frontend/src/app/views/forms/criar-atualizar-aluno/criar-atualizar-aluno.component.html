@@ -1,0 +1,62 @@
+<div class="container mt-4"  *ngIf="isAdmin; else accessDenied">
+  <div class="d-flex justify-content-center mb-4">
+    <button class="btn btn-primary me-2" [class.active]="isModoCriacao" [ngStyle]="{ backgroundColor: '#007BFF', color: '#FFFFFF', border: 'none' }" (click)="modoCriacao()">Criar Aluno</button>
+    <button class="btn btn-secondary" [class.active]="!isModoCriacao"  [ngStyle]="{ backgroundColor: '#007BFF', color: '#FFFFFF', border: 'none' }" (click)="modoEdicao()">Editar Aluno</button>
+  </div>
+
+  <form [formGroup]="alunoForm" (ngSubmit)="onSubmit()" class="border p-4 rounded">
+    <h2 class="text-center mb-4" *ngIf="isModoCriacao" [ngStyle]="{ color: '#007BFF' }">Criar Aluno</h2>
+    <h2 class="text-center mb-4" *ngIf="!isModoCriacao" [ngStyle]="{ color: '#007BFF' }">Editar Aluno</h2>
+
+    <div *ngIf="!isModoCriacao" class="mb-3">
+      <label for="alunoSelect">Selecione um Aluno</label>
+      <select id="alunoSelect" class="form-select" (change)="selecionarAluno($event)">
+        <option value="" disabled selected>Selecione um aluno</option>
+        <option *ngFor="let aluno of alunos" [value]="aluno.id">{{ aluno.nome }}</option>
+      </select>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="nome">Nome</label>
+      <input id="nome" type="text" formControlName="nome" class="form-control" />
+    </div>
+    <div class="form-group mb-3">
+      <label for="sobrenome">Sobrenome</label>
+      <input id="sobrenome" type="text" formControlName="sobrenome" class="form-control" />
+    </div>
+    <div class="form-group mb-3">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" class="form-control" />
+    </div>
+    <div class="form-group mb-3">
+      <label for="ra">RA</label>
+      <input id="ra" type="text" formControlName="ra" class="form-control" />
+    </div>
+    <div class="form-group mb-3">
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" formControlName="senha" class="form-control" />
+    </div>
+    <div class="form-group mb-3">
+      <label for="curso">Curso</label>
+      <select id="curso" formControlName="curso" class="form-select">
+        <option value="" disabled selected>Selecione um curso</option>
+        <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nome }}</option>
+      </select>
+    </div>
+    <div class="form-group mb-3">
+      <label for="turmas">Turmas</label>
+      <select id="turmas" formControlName="turmas" class="form-select">
+        <option value="" disabled selected>Selecione uma turma</option>
+        <option *ngFor="let turma of turmas" [value]="turma.id">
+          {{ turma.periodo }} - {{ turma.cursoNome }}
+        </option>
+      </select>
+    </div>
+    <button type="submit" [ngStyle]="{ backgroundColor: '#007BFF', color: '#FFFFFF', border: 'none' }" class="btn btn-primary w-100">{{ isModoCriacao ? 'Criar Aluno' : 'Atualizar Aluno' }}</button>
+  </form>
+</div>
+<ng-template #accessDenied>
+  <div class="text-center my-4">
+    <h1>Somente administradores podem acessar esta página.</h1>
+  </div>
+</ng-template>

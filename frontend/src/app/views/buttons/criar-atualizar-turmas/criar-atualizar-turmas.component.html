@@ -1,0 +1,62 @@
+<div class="container" *ngIf="isAdmin; else accessDenied">
+  <h1   [ngStyle]="{ color: '#007BFF' }">
+    {{ isEditMode ? 'Atualizar Turma' : 'Criar Turma' }}
+  </h1>
+
+  <form [formGroup]="turmaForm" (ngSubmit)="onSubmit()">
+    <!-- Dropdown para seleção de turmas -->
+    <div class="mb-3" *ngIf="turmas && turmas.length > 0">
+      <label for="turma" class="form-label">Selecionar Turma</label>
+      <select
+        id="turma"
+        class="form-select"
+        (change)="onSelectTurma($event)"
+      >
+        <option [value]="null" selected>Nova Turma</option>
+        <option *ngFor="let turma of turmas" [value]="turma.id">
+          {{ turma.periodo }} - {{ turma.curso?.nome }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Campos do formulário -->
+    <div class="mb-3">
+      <label for="periodo" class="form-label">Período</label>
+      <input
+        id="periodo"
+        type="text"
+        class="form-control"
+        formControlName="periodo"
+        [ngClass]="{ 'is-invalid': turmaForm.get('periodo')?.invalid && turmaForm.get('periodo')?.touched }"
+      />
+      <div class="invalid-feedback">
+        O período é obrigatório.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="cursoId" class="form-label">Nome do Curso</label>
+      <select id="cursoId" class="form-select" formControlName="cursoId">
+        <option [value]="null" selected>Selecione um curso</option>
+        <option *ngFor="let curso of cursos" [value]="curso.id">
+          {{ curso.nome }}
+        </option>
+      </select>
+      <div *ngIf="turmaForm.get('cursoId')?.invalid && turmaForm.get('cursoId')?.touched" class="invalid-feedback">
+        O nome do curso é obrigatório.
+      </div>
+    </div>
+
+    <!-- Botão de ação -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary" [disabled]="turmaForm.invalid" [ngStyle]="{ backgroundColor: '#007BFF', color: '#FFFFFF', border: 'none' }">
+        {{ isEditMode ? 'Atualizar' : 'Criar' }}
+      </button>
+    </div>
+  </form>
+</div>
+<ng-template #accessDenied>
+  <div class="text-center my-4">
+    <h1>Somente administradores podem acessar esta página.</h1>
+  </div>
+</ng-template>

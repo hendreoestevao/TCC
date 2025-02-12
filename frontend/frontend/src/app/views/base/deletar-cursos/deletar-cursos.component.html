@@ -1,0 +1,20 @@
+<div *ngIf="isAdmin; else accessDenied">
+<h1 [ngStyle]="{ color: '#007BFF' }" >Deletar Curso</h1>
+
+<!-- Seleção de Curso -->
+<div class="form-group">
+  <label for="cursoSelecionado">Selecione um Curso para Deletar:</label>
+  <select id="cursoSelecionado" class="form-control" [(ngModel)]="cursoSelecionado">
+    <option value="">Selecione um curso</option>
+    <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nome }}</option>
+  </select>
+</div>
+
+<!-- Botão para Deletar -->
+<button type="button" class="btn btn-danger mt-3" [disabled]="!cursoSelecionado" (click)="deletarCurso()">Deletar Curso</button>
+</div>
+<ng-template #accessDenied>
+  <div class="text-center my-4">
+    <h1>Somente administradores podem acessar esta página.</h1>
+  </div>
+</ng-template>

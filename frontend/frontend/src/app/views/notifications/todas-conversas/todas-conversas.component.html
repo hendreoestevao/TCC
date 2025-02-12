@@ -1,0 +1,62 @@
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h1 class="text-center mb-4" [ngStyle]="{ color: '#007BFF' }">Todas as Conversas</h1>
+    <div *ngIf="userType !== 'professor'">
+      Chat disponivel só para professores
+    </div>
+  </div>
+
+
+  <div *ngIf="userType === 'professor'" class="chat-container">
+    <h2 class="chat-title">Chats com Alunos</h2>
+    <div *ngFor="let conversa of conversas" class="chat-list-item">
+      <button class="chat-button" (click)="abrirChat(conversa)">
+        <div class="chat-details">
+          <div class="chat-info">
+            <p class="chat-name">Aluno ID {{ conversa.studentId }}</p>
+            <p class="chat-last-message">Clique aqui para abrir a mensagem</p>
+          </div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+
+
+
+  <div *ngIf="selectedConversa" class="chat-modal">
+    <div class="chat-modal-content">
+      <span (click)="fecharModal()" class="close">&times;</span>
+      <h2>Conversando com Aluno ID {{ selectedConversa.studentId }}</h2>
+
+      <div class="messages-container">
+        <div *ngFor="let conversa of selectedConversa.messages">
+          <div *ngIf="conversa.role === 'teacher'" class="message teacher-message">
+            <div class="message-bubble">
+              <strong>Professor:</strong> {{ conversa.content }}
+            </div>
+            <small class="timestamp">{{ conversa.timestamp | date: 'short' }}</small>
+          </div>
+
+          <div *ngIf="conversa.role === 'student'" class="message student-message">
+            <div class="message-bubble">
+              <strong>Aluno:</strong> {{ conversa.content }}
+            </div>
+            <small class="timestamp">{{ conversa.timestamp | date: 'short' }}</small>
+          </div>
+
+          <div *ngIf="conversa.role === null" class="message other-message">
+            <div class="message-bubble">
+              {{ conversa.content }}
+            </div>
+            <small class="timestamp">{{ conversa.timestamp | date: 'short' }}</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="message-input">
+        <textarea [(ngModel)]="content" placeholder="Escreva sua mensagem..." rows="4"></textarea>
+        <button (click)="enviarMensagem()" class="send-btn">Enviar</button>
+      </div>
+    </div>
+  </div>

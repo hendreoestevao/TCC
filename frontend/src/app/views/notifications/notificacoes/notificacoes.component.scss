@@ -1,0 +1,50 @@
+/* Notificações Component */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.card {
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 1.2rem;
+}
+
+.card-text {
+  font-size: 1rem;
+}
+
+.alert {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+}
+
+.text-info {
+  font-weight: bold;
+}
+
+.text-primary {
+  color: #007BFF;
+}
+
+.badge-light {
+  background-color: #f8f9fa; /* cor de fundo mais clara */
+  color: #000; /* texto preto */
+}

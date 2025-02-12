@@ -1,0 +1,51 @@
+<div class="container mt-5">
+  <h1 [ngStyle]="{ color: '#007BFF' }">Notas e Faltas</h1>
+
+  <form>
+    <!-- RA do Aluno -->
+    <div class="mb-3">
+      <label for="raAluno" class="form-label">RA do Aluno:</label>
+      <!-- Se for professor, exibe um select; caso contrário, exibe um input -->
+      <ng-container *ngIf="isProfessor; else inputRA">
+        <select id="raAluno" [(ngModel)]="raAluno" name="raAluno" class="form-select" required>
+          <option value="" disabled selected>Selecione o aluno</option>
+          <option *ngFor="let aluno of alunos" [value]="aluno.ra">
+            {{ aluno.nome }} {{ aluno.sobrenome }} (RA: {{ aluno.ra }})
+          </option>
+        </select>
+      </ng-container>
+      <ng-template #inputRA>
+        <input type="text" id="raAluno" [(ngModel)]="raAluno" name="raAluno" class="form-control" required />
+      </ng-template>
+    </div>
+
+    <!-- Select para Disciplina -->
+    <div class="mb-3">
+      <label for="disciplinaId" class="form-label">Disciplina:</label>
+      <select id="disciplinaId" [(ngModel)]="disciplinaId" name="disciplinaId" class="form-select" required>
+        <option value="" disabled selected>Selecione uma disciplina</option>
+        <option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">
+          {{ disciplina.nome }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Nota -->
+    <div class="mb-3">
+      <label for="nota" class="form-label">Nota:</label>
+      <input type="number" id="nota" [(ngModel)]="nota" name="nota" step="0.1" class="form-control" required>
+    </div>
+
+    <!-- Faltas -->
+    <div class="mb-3">
+      <label for="faltas" class="form-label">Faltas:</label>
+      <input type="number" id="faltas" [(ngModel)]="faltas" name="faltas" class="form-control" required>
+    </div>
+
+    <!-- Botões de Cadastrar e Atualizar -->
+    <div class="text-center">
+      <button type="button" class="btn btn-success" (click)="cadastrar()">Cadastrar</button>
+      <button type="button" class="btn btn-warning" (click)="atualizar()">Atualizar</button>
+    </div>
+  </form>
+</div>

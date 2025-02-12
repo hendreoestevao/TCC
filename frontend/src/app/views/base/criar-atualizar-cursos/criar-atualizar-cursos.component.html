@@ -1,0 +1,52 @@
+<div class="container" *ngIf="isAdmin; else accessDenied">
+  <h2 [ngStyle]="{ color: '#007BFF' }">Criar ou Atualizar Curso</h2>
+
+  <!-- Seleção de curso -->
+  <div>
+    <label for="cursoSelecionado">Selecione um curso:</label>
+    <select
+      id="cursoSelecionado"
+      [(ngModel)]="cursoSelecionado"
+      (change)="carregarCurso()"
+      class="form-select"
+    >
+      <option [value]="null" selected>Novo Curso</option>
+      <option *ngFor="let curso of cursos" [value]="curso.id">
+        {{ curso.nome }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Formulário para adicionar/editar curso -->
+  <form [formGroup]="cursoForm" (ngSubmit)="salvarCurso()">
+    <div class="form-group mt-3">
+      <label for="nome">Nome do Curso:</label>
+      <input
+        id="nome"
+        formControlName="nome"
+        type="text"
+        class="form-control"
+        placeholder="Digite o nome do curso"
+
+      />
+    </div>
+
+    <!-- Botão de ação -->
+    <div class="mt-3">
+      <button
+        type="submit"
+        class="btn"
+        [ngStyle]="{ backgroundColor: '#007BFF', color: '#FFFFFF', border: 'none' }"
+        [disabled]="loading || cursoForm.invalid"
+      >
+        {{ cursoSelecionado ? 'Atualizar' : 'Criar' }} Curso
+      </button>
+    </div>
+
+  </form>
+</div>
+<ng-template #accessDenied>
+  <div class="text-center my-4">
+    <h1>Somente administradores podem acessar esta página.</h1>
+  </div>
+</ng-template>

@@ -1,0 +1,71 @@
+<div class="container" *ngIf="isAdmin; else accessDenied">
+  <h1 [ngStyle]="{ color: '#007BFF' }">Lista de Turmas</h1>
+
+  <!-- Campo de Filtro -->
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Filtrar turmas por período, curso, alunos, professores ou disciplinas..."
+      [(ngModel)]="filtro"
+      (input)="filtrarTurmas()"
+    />
+  </div>
+
+  <!-- Verificação de dados -->
+  <div *ngIf="turmasFiltradas.length > 0; else noData">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Período</th>
+          <th>Curso</th>
+          <th>Alunos</th>
+          <th>Disciplinas</th>
+          <th>Professores</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let turma of turmasFiltradas">
+          <td>{{ turma.id }}</td>
+          <td>{{ turma.periodo }}</td>
+          <td>{{ turma.cursoNome }}</td>
+          <td>
+            <ul *ngIf="turma.alunos && turma.alunos.length > 0" class="list-unstyled">
+              <li *ngFor="let aluno of turma.alunos">
+                {{ aluno }}
+              </li>
+            </ul>
+            <p *ngIf="!turma.alunos || turma.alunos.length === 0">Nenhum aluno cadastrado</p>
+          </td>
+          <td>
+            <ul *ngIf="turma.disciplinas && turma.disciplinas.length > 0" class="list-unstyled">
+              <li *ngFor="let disciplina of turma.disciplinas">
+                {{ disciplina }}
+              </li>
+            </ul>
+            <p *ngIf="!turma.disciplinas || turma.disciplinas.length === 0">Nenhuma disciplina cadastrada</p>
+          </td>
+          <td>
+            <ul *ngIf="turma.professores && turma.professores.length > 0" class="list-unstyled">
+              <li *ngFor="let professor of turma.professores">
+                {{ professor }}
+              </li>
+            </ul>
+            <p *ngIf="!turma.professores || turma.professores.length === 0">Nenhum professor cadastrado</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Caso não existam turmas -->
+  <ng-template #noData>
+    <p class="text-center text-danger">Nenhuma turma encontrada.</p>
+  </ng-template>
+</div>
+<ng-template #accessDenied>
+  <div class="text-center my-4">
+    <h1>Somente administradores podem acessar esta página.</h1>
+  </div>
+</ng-template>

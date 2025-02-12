@@ -1,0 +1,32 @@
+<div class="container" *ngIf="isAdmin; else accessDenied">
+  <h1 [ngStyle]="{ color: '#007BFF' }">Deletar Turma</h1>
+
+  <!-- Dropdown para selecionar a turma -->
+  <div class="form-group">
+    <label for="selectTurma">Selecione a turma para deletar:</label>
+    <select
+      id="selectTurma"
+      class="form-control"
+      (change)="onSelectTurma($event)"
+    >
+      <option value="">Selecione uma turma</option>
+      <option *ngFor="let turma of turmas" [value]="turma.id">
+        {{ turma.periodo }} - {{ turma.curso?.nome }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Botão para deletar -->
+  <button
+    class="btn btn-danger mt-3"
+    [disabled]="!turmaId"
+    (click)="onDeleteTurma()"
+  >
+    Deletar Turma
+  </button>
+</div>
+<ng-template #accessDenied>
+  <div class="text-center my-4">
+    <h1>Somente administradores podem acessar esta página.</h1>
+  </div>
+</ng-template>

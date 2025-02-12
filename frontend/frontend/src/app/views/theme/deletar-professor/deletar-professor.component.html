@@ -1,0 +1,23 @@
+<div class="card" *ngIf="isAdmin; else accessDenied">
+  <div class="card-header">
+    <h4 [ngStyle]="{ color: '#007BFF' }">Deletar Professor</h4>
+  </div>
+  <div class="card-body">
+    <!-- Select para escolher o professor -->
+    <div class="form-group mb-3">
+      <label for="professorSelect">Escolha um professor para deletar</label>
+      <select id="professorSelect" class="form-control" (change)="setProfessorId($event)">
+        <option value="">Selecione um professor</option>
+        <option *ngFor="let professor of professores" [value]="professor.id">{{ professor.nome }}</option>
+      </select>
+    </div>
+
+    <!-- Botão para deletar o professor -->
+    <button class="btn btn-danger mt-3" (click)="deletarProfessor()">Deletar</button>
+  </div>
+</div>
+<ng-template #accessDenied>
+  <div class="text-center my-4">
+    <h1>Somente administradores podem acessar esta página.</h1>
+  </div>
+</ng-template>
